@@ -2,7 +2,10 @@ import { Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 
 import { Footer, Header } from '@/components/shop/header'
+import { CartDrawer } from '@/components/shop/cart-drawer'
+import { Toaster } from '@/components/ui/sonner'
 import CartPage from '@/pages/CartPage'
+import FavoritesPage from '@/pages/FavoritesPage'
 import HomePage from '@/pages/HomePage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import OrderConfirmedPage from '@/pages/OrderConfirmedPage'
@@ -23,6 +26,8 @@ function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <CartDrawer />
+      <Toaster position="bottom-center" offset={24} mobileOffset={{ bottom: 84 }} closeButton />
     </div>
   )
 }
@@ -35,6 +40,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/order-confirmed" element={<OrderConfirmedPage />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -49,6 +49,9 @@ interface CartState {
   remove: (id: number) => void
   /** Simulated payment: empties the cart and returns a fake order number. */
   checkout: () => string
+  /** Side cart drawer. */
+  drawerOpen: boolean
+  setDrawerOpen: (open: boolean) => void
 }
 
 const CartContext = createContext<CartState | null>(null)
@@ -98,6 +101,7 @@ function loadOrder(): string | null {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, dispatch] = useReducer(reducer, undefined, loadCart)
   const [lastOrder, setLastOrder] = useState<string | null>(loadOrder)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => {
     saveCart(lines)
@@ -108,7 +112,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (e.key === CART_KEY) dispatch({ type: 'replace', lines: loadCart() })
     }
     window.addEventListener('storage', onStorage)
-    return () => window.removeEventListener('storage', onStorage)
+    return () => {
+      window.removeEventListener('storage', onStorage)
+    }
   }, [])
 
   const add = useCallback(
@@ -142,8 +148,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setQuantity,
       remove,
       checkout,
+      drawerOpen,
+      setDrawerOpen,
     }),
-    [lines, lastOrder, add, setQuantity, remove, checkout],
+    [lines, lastOrder, add, setQuantity, remove, checkout, drawerOpen],
   )
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

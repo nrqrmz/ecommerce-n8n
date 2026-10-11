@@ -1,12 +1,28 @@
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import { categoryLabel } from '@/lib/products'
+import { cn } from '@/lib/utils'
 
 export type SortKey = 'default' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc'
 
-const selectClass =
-  'h-11 w-full rounded-md border bg-background px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50'
+function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={cn(
+        'h-10 shrink-0 rounded-full border px-4 text-sm font-medium whitespace-nowrap transition-colors',
+        active
+          ? 'border-primary bg-primary text-primary-foreground'
+          : 'bg-card hover:border-primary/40 hover:text-primary',
+      )}
+    >
+      {children}
+    </button>
+  )
+}
 
 export function ProductFilters({
   q,
@@ -22,34 +38,31 @@ export function ProductFilters({
   onChange: (patch: { q?: string; category?: string; sort?: SortKey }) => void
 }) {
   return (
-    <div className="grid gap-3 md:grid-cols-[1fr_14rem_14rem]">
-      <div className="relative">
-        <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          type="search"
-          value={q}
-          onChange={(e) => onChange({ q: e.target.value })}
-          placeholder="Search by name, brand or category"
-          aria-label="Search products"
-          className="h-11 pl-9"
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-3 md:contents">
+    <div className="space-y-3">
+      <div className="flex gap-3">
+        <div className="relative flex-1">
+          <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="search"
+            value={q}
+            onChange={(e) => onChange({ q: e.target.value })}
+            placeholder="Search products"
+            aria-label="Search products"
+            className="h-11 rounded-full bg-card pr-11 pl-10 [&::-webkit-search-cancel-button]:hidden"
+          />
+          {q && (
+            <button
+              type="button"
+              onClick={() => onChange({ q: '' })}
+              aria-label="Clear search"
+              className="absolute top-1/2 right-0 flex size-11 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:text-foreground"
+            >
+              <X className="size-4" />
+            </button>
+          )}
+        </div>
         <select
-          className={selectClass}
-          value={category}
-          onChange={(e) => onChange({ category: e.target.value })}
-          aria-label="Filter by category"
-        >
-          <option value="">All categories</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {categoryLabel(c)}
-            </option>
-          ))}
-        </select>
-        <select
-          className={selectClass}
+          className="h-11 w-36 shrink-0 rounded-full border bg-card px-4 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:w-48"
           value={sort}
           onChange={(e) => onChange({ sort: e.target.value as SortKey })}
           aria-label="Sort products"
@@ -60,6 +73,20 @@ export function ProductFilters({
           <option value="name-asc">Name: A to Z</option>
           <option value="name-desc">Name: Z to A</option>
         </select>
+      </div>
+      <div
+        role="group"
+        aria-label="Filter by category"
+        className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0"
+      >
+        <Chip active={!category} onClick={() => onChange({ category: '' })}>
+          All
+        </Chip>
+        {categories.map((c) => (
+          <Chip key={c} active={category === c} onClick={() => onChange({ category: c })}>
+            {categoryLabel(c)}
+          </Chip>
+        ))}
       </div>
     </div>
   )

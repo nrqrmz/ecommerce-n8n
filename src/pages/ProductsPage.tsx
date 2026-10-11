@@ -1,11 +1,15 @@
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { SearchX } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
+import { EmptyState } from '@/components/shop/empty-state'
 import { ErrorState } from '@/components/shop/error-state'
 import { Pagination } from '@/components/shop/pagination'
 import { ProductGrid, ProductGridSkeleton } from '@/components/shop/product-card'
 import { ProductFilters, type SortKey } from '@/components/shop/product-filters'
 import { useProducts } from '@/context/products-context'
+import { categoryLabel } from '@/lib/products'
 
 const PAGE_SIZE = 12
 const SORTS: SortKey[] = ['default', 'price-asc', 'price-desc', 'name-asc', 'name-desc']
@@ -66,8 +70,10 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 md:py-8">
-      <h1 className="mb-4 text-2xl font-bold">Products</h1>
+    <div className="mx-auto max-w-6xl px-4 py-6 md:py-10">
+      <h1 className="mb-5 text-2xl font-extrabold tracking-tight md:text-3xl">
+        {category ? categoryLabel(category) : 'All products'}
+      </h1>
       <ProductFilters
         q={q}
         category={category}
@@ -81,10 +87,17 @@ export default function ProductsPage() {
         ) : loading ? (
           <ProductGridSkeleton count={PAGE_SIZE} />
         ) : filtered.length === 0 ? (
-          <p className="py-12 text-center text-muted-foreground">No products match your search.</p>
+          <EmptyState icon={SearchX} title="No products found" description="Try another search or category.">
+            <Button variant="outline" className="h-11" onClick={() => update({ q: undefined, category: undefined })}>
+              Clear filters
+            </Button>
+          </EmptyState>
         ) : (
           <>
-            <p className="mb-3 text-sm text-muted-foreground">{filtered.length} products</p>
+            <p className="mb-4 text-sm text-muted-foreground">
+              {filtered.length} {filtered.length === 1 ? 'product' : 'products'}
+              {category && ` in ${categoryLabel(category)}`}
+            </p>
             <ProductGrid products={visible} />
             <Pagination page={page} pageCount={pageCount} onChange={goToPage} />
           </>

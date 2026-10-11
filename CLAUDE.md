@@ -15,6 +15,19 @@ All code, comments, commit messages and UI text must be in English.
 - The cart (`src/context/cart-context.tsx`) is saved in localStorage; checkout is simulated.
 - Products are cached in localStorage for 24 h (`src/lib/products-cache.ts`) and refreshed from N8N in the background.
 - The N8N Webhook node must allow CORS for the browser to read it.
+- Show only real data from the JSON: no invented ratings, stock, discounts or shipping promises.
+
+## UI
+- Store name and tagline live in `src/lib/brand.ts` (Cartwell, "Shop well. Live well.").
+- Brand color is indigo, defined as tokens in `src/index.css` (`:root` and `.dark`). Font: Inter.
+- Dark mode: `src/context/theme-context.tsx`; `index.html` applies the saved theme before React loads.
+- Favorites: `src/context/favorites-context.tsx` (localStorage). Cart drawer: `src/components/shop/cart-drawer.tsx`,
+  opened via `setDrawerOpen` from the cart context. Add to cart with `useAddToCart()` (shows a toast).
+- Toasts use `sonner` (`src/components/ui/sonner.tsx`, wired to our theme, no next-themes).
+- `useEffect` callbacks must use a block body and never return a value other than a cleanup function
+  (newer browsers return a Promise from `scrollTo`, which crashed the app on navigation).
+- The shadcn registry may be unreachable; write shadcn-style components by hand on top of `radix-ui`.
+- Manual end-to-end check: `scripts/README.md` and `scripts/flow.cjs`.
 
 ## Routing and deployment
 - Use `BrowserRouter`. Do not replace it with `HashRouter`.
@@ -45,5 +58,6 @@ All code, comments, commit messages and UI text must be in English.
 - Import with the `@/` alias (maps to `src/`).
 
 ## Routes
-`/` home, `/products` catalog (filters in URL query), `/products/:id` detail, `/cart`, `/order-confirmed`.
+`/` home, `/products` catalog (filters in URL query), `/products/:id` detail, `/favorites`, `/cart`,
+`/order-confirmed`.
 Design is mobile-first: base Tailwind classes are the phone layout, `md:`/`lg:` enlarge it.

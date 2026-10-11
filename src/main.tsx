@@ -5,7 +5,9 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { ErrorBoundary } from './components/shop/error-boundary'
 import { CartProvider } from './context/cart-context'
+import { FavoritesProvider } from './context/favorites-context'
 import { ProductsProvider } from './context/products-context'
+import { ThemeProvider } from './context/theme-context'
 import './index.css'
 
 // BASE_URL is "/" locally and on Vercel/Netlify, and "/<repo-name>/" on GitHub Pages.
@@ -13,13 +15,17 @@ import './index.css'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <ErrorBoundary>
-      <ProductsProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </ProductsProvider>
-      </ErrorBoundary>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <ProductsProvider>
+            <CartProvider>
+              <FavoritesProvider>
+                <App />
+              </FavoritesProvider>
+            </CartProvider>
+          </ProductsProvider>
+        </ErrorBoundary>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,
 )

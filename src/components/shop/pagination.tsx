@@ -17,7 +17,7 @@ export function Pagination({
   )
   return (
     <nav className="mt-8 flex items-center justify-center gap-2" aria-label="Pagination">
-      <Button variant="outline" className="h-11" disabled={page <= 1} onClick={() => onChange(page - 1)}>
+      <Button variant="outline" className="h-11 rounded-full" disabled={page <= 1} onClick={() => onChange(page - 1)}>
         <ChevronLeft /> Prev
       </Button>
       <span className="px-2 text-sm md:hidden">
@@ -28,8 +28,8 @@ export function Pagination({
           <span key={p} className="flex items-center gap-1">
             {i > 0 && p - pages[i - 1] > 1 && <span className="px-1">…</span>}
             <Button
-              variant={p === page ? 'default' : 'outline'}
-              className="size-11"
+              variant={p === page ? "default" : "outline"}
+              className="size-11 rounded-full"
               aria-current={p === page ? 'page' : undefined}
               onClick={() => onChange(p)}
             >

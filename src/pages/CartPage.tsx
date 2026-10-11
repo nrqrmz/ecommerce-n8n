@@ -1,86 +1,50 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Loader2, Minus, Plus, Trash2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Loader2, ShoppingBag } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { ProductImage } from '@/components/shop/product-image'
+import { CartLineItem } from '@/components/shop/cart-line-item'
+import { EmptyState } from '@/components/shop/empty-state'
 import { useCart } from '@/context/cart-context'
+import { useCheckout } from '@/hooks/use-checkout'
 import { formatPrice } from '@/lib/utils'
 
 export default function CartPage() {
-  const { lines, total, count, setQuantity, remove, checkout } = useCart()
-  const navigate = useNavigate()
-  const [paying, setPaying] = useState(false)
-
-  function pay() {
-    setPaying(true)
-    // Simulated payment: wait a moment, then clear the cart.
-    setTimeout(() => {
-      checkout()
-      navigate('/order-confirmed', { replace: true })
-    }, 1200)
-  }
+  const { lines, total, count } = useCart()
+  const { paying, pay } = useCheckout()
 
   if (lines.length === 0 && !paying) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold">Your cart is empty</h1>
-        <p className="mt-2 text-muted-foreground">Add something you like and it will show up here.</p>
-        <Button asChild className="mt-6 h-11">
-          <Link to="/products">Browse products</Link>
-        </Button>
+      <div className="mx-auto max-w-6xl px-4 py-10">
+        <EmptyState icon={ShoppingBag} title="Your cart is empty" description="Add something you like and it will show up here.">
+          <Button asChild className="h-11">
+            <Link to="/products">Browse products</Link>
+          </Button>
+        </EmptyState>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 pb-40 md:py-8 md:pb-8">
-      <h1 className="mb-4 text-2xl font-bold">Cart ({count})</h1>
-      <div className="grid gap-6 md:grid-cols-[1fr_20rem] md:items-start">
+    <div className="mx-auto max-w-6xl px-4 py-6 pb-44 md:py-10 md:pb-10">
+      <h1 className="mb-5 text-2xl font-extrabold tracking-tight md:text-3xl">Cart ({count})</h1>
+      <div className="grid gap-6 md:grid-cols-[1fr_22rem] md:items-start">
         <ul className="space-y-3">
-          {lines.map(({ product, quantity }) => (
-            <li key={product.id} className="flex gap-3 rounded-xl border p-3">
-              <Link to={`/products/${product.id}`} className="w-20 shrink-0 sm:w-24">
-                <ProductImage src={product.thumbnail} alt={product.title} className="rounded-md" />
-              </Link>
-              <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <div className="flex justify-between gap-2">
-                  <Link to={`/products/${product.id}`} className="line-clamp-2 text-sm font-medium hover:underline">
-                    {product.title}
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="-mt-1 -mr-1 size-11 shrink-0"
-                    aria-label={`Remove ${product.title}`}
-                    onClick={() => remove(product.id)}
-                  >
-                    <Trash2 />
-                  </Button>
-                </div>
-                <div className="mt-auto flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    <Button variant="outline" size="icon" className="size-11" aria-label="Decrease quantity" onClick={() => setQuantity(product.id, quantity - 1)}>
-                      <Minus />
-                    </Button>
-                    <span className="w-8 text-center">{quantity}</span>
-                    <Button variant="outline" size="icon" className="size-11" aria-label="Increase quantity" onClick={() => setQuantity(product.id, quantity + 1)}>
-                      <Plus />
-                    </Button>
-                  </div>
-                  <span className="font-semibold">{formatPrice(product.price * quantity)}</span>
-                </div>
-              </div>
-            </li>
+          {lines.map((line) => (
+            <CartLineItem key={line.product.id} line={line} />
           ))}
         </ul>
 
-        <aside className="fixed inset-x-0 bottom-0 z-30 space-y-3 border-t bg-background p-4 md:static md:rounded-xl md:border md:p-5">
-          <div className="flex justify-between text-lg font-semibold">
-            <span>Total</span>
-            <span>{formatPrice(total)}</span>
+        <aside className="fixed inset-x-0 bottom-0 z-30 space-y-3 border-t bg-background/95 p-4 backdrop-blur md:sticky md:top-24 md:rounded-2xl md:border md:bg-card md:p-5">
+          <h2 className="hidden text-lg font-bold md:block">Order summary</h2>
+          <div className="flex justify-between text-sm text-muted-foreground">
+            <span>Items</span>
+            <span className="tabular-nums">{count}</span>
           </div>
-          <Button className="h-12 w-full" disabled={paying} onClick={pay}>
+          <div className="flex justify-between text-lg font-bold">
+            <span>Total</span>
+            <span className="tabular-nums">{formatPrice(total)}</span>
+          </div>
+          <Button className="h-12 w-full text-base" disabled={paying} onClick={pay}>
             {paying && <Loader2 className="animate-spin" />}
             {paying ? 'Processing…' : `Pay ${formatPrice(total)}`}
           </Button>
