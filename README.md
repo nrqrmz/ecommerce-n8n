@@ -7,18 +7,9 @@
 An immersive dark e-commerce storefront built with **React 19**, **TypeScript** and **Tailwind CSS**,
 powered by a product catalog served from an **N8N workflow**.
 
-[![Live demo](https://img.shields.io/badge/Live%20demo-Visit%20the%20store-6d5ef5?style=for-the-badge&logo=githubpages&logoColor=white)](https://nrqrmz.github.io/ecommerce-n8n/)
+**[Visit the live store →](https://nrqrmz.github.io/ecommerce-n8n/)**
 
-![React](https://img.shields.io/badge/React-19-20232a?style=flat-square&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![Motion](https://img.shields.io/badge/Motion-14-0055FF?style=flat-square&logo=framer&logoColor=white)
-![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Radix-000000?style=flat-square&logo=shadcnui&logoColor=white)
-![React Router](https://img.shields.io/badge/React_Router-7-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
-![N8N](https://img.shields.io/badge/N8N-Workflow-EA4B71?style=flat-square&logo=n8n&logoColor=white)
-![Google Sheets](https://img.shields.io/badge/Google_Sheets-Data-34A853?style=flat-square&logo=googlesheets&logoColor=white)
-![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Deployed-222222?style=flat-square&logo=githubpages&logoColor=white)
+<img src="docs/icons/react.svg" alt="React" title="React" width="44" height="44"> <img src="docs/icons/typescript.svg" alt="TypeScript" title="TypeScript" width="44" height="44"> <img src="docs/icons/vite.svg" alt="Vite" title="Vite" width="44" height="44"> <img src="docs/icons/tailwindcss.svg" alt="Tailwind CSS" title="Tailwind CSS" width="44" height="44"> <img src="docs/icons/motion.svg" alt="Motion" title="Motion" width="44" height="44"> <img src="docs/icons/shadcnui.svg" alt="shadcn/ui" title="shadcn/ui" width="44" height="44"> <img src="docs/icons/radixui.svg" alt="Radix UI" title="Radix UI" width="44" height="44"> <img src="docs/icons/reactrouter.svg" alt="React Router" title="React Router" width="44" height="44"> <img src="docs/icons/n8n.svg" alt="N8N" title="N8N" width="44" height="44"> <img src="docs/icons/googlesheets.svg" alt="Google Sheets" title="Google Sheets" width="44" height="44"> <img src="docs/icons/githubpages.svg" alt="GitHub Pages" title="GitHub Pages" width="44" height="44">
 
 `Portfolio project` · `Mobile-first` · `Simulated payments`
 
@@ -76,28 +67,28 @@ identity, polished motion, resilient data loading and a mobile-first layout, wit
 - Products are **cached in the browser for 24 hours** and refreshed in the background.
 - Network requests use a timeout and automatic retries; failures show a friendly retry state.
 - The cart persists across reloads and syncs between tabs.
-- An **error boundary** turns unexpected crashes into a recoverable screen instead of a blank page.
+- An **error boundary** turns unexpected errors into a friendly, recoverable screen.
 
 ## Tech stack
 
 | Area | Technology | Used for |
 | --- | --- | --- |
-| Framework | ![React](https://img.shields.io/badge/-React_19-20232a?style=flat-square&logo=react&logoColor=61DAFB) | UI, hooks and context for state |
-| Language | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) | Type-safe code across the app |
-| Build tool | ![Vite](https://img.shields.io/badge/-Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white) | Dev server and production bundles |
-| Styling | ![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white) | Utility-first, mobile-first styling and design tokens |
-| UI components | ![shadcn/ui](https://img.shields.io/badge/-shadcn%2Fui-000000?style=flat-square&logo=shadcnui&logoColor=white) ![Radix UI](https://img.shields.io/badge/-Radix_UI-161618?style=flat-square&logo=radixui&logoColor=white) | Accessible primitives (dialogs, sheets) written in the shadcn/ui style |
-| Animation | ![Motion](https://img.shields.io/badge/-Motion-0055FF?style=flat-square&logo=framer&logoColor=white) | Springs, layout animations, route transitions, fly-to-cart |
+| Framework | <img src="docs/icons/react.svg" alt="React 19" title="React 19" width="20" height="20"> React 19 | UI, hooks and context for state |
+| Language | <img src="docs/icons/typescript.svg" alt="TypeScript 6" title="TypeScript 6" width="20" height="20"> TypeScript 6 | Type-safe code across the app |
+| Build tool | <img src="docs/icons/vite.svg" alt="Vite 8" title="Vite 8" width="20" height="20"> Vite 8 | Dev server and production bundles |
+| Styling | <img src="docs/icons/tailwindcss.svg" alt="Tailwind CSS 4" title="Tailwind CSS 4" width="20" height="20"> Tailwind CSS 4 | Utility-first, mobile-first styling and design tokens |
+| UI components | <img src="docs/icons/shadcnui.svg" alt="shadcn/ui" title="shadcn/ui" width="20" height="20"> shadcn/ui · <img src="docs/icons/radixui.svg" alt="Radix UI" title="Radix UI" width="20" height="20"> Radix UI | Accessible primitives (dialogs, sheets) written in the shadcn/ui style |
+| Animation | <img src="docs/icons/motion.svg" alt="Motion 14" title="Motion 14" width="20" height="20"> Motion 14 | Springs, layout animations, route transitions, fly-to-cart |
 | Celebration | `canvas-confetti` | Confetti burst on payment |
 | Notifications | `Sonner` | "Added to cart" toasts |
-| Icons | ![Lucide](https://img.shields.io/badge/-Lucide-F56565?style=flat-square&logo=lucide&logoColor=white) | Icon set |
-| Routing | ![React Router](https://img.shields.io/badge/-React_Router_7-CA4245?style=flat-square&logo=reactrouter&logoColor=white) | `BrowserRouter` with deep links |
-| Typography | ![Google Fonts](https://img.shields.io/badge/-Sora_%2B_Inter-4285F4?style=flat-square&logo=googlefonts&logoColor=white) | Sora for headings, Inter for text |
-| Data pipeline | ![N8N](https://img.shields.io/badge/-N8N-EA4B71?style=flat-square&logo=n8n&logoColor=white) ![Google Sheets](https://img.shields.io/badge/-Google_Sheets-34A853?style=flat-square&logo=googlesheets&logoColor=white) | Webhook workflow that serves the catalog as JSON |
+| Icons | <img src="docs/icons/lucide.svg" alt="Lucide" title="Lucide" width="20" height="20"> Lucide | Icon set |
+| Routing | <img src="docs/icons/reactrouter.svg" alt="React Router 7" title="React Router 7" width="20" height="20"> React Router 7 | `BrowserRouter` with deep links |
+| Typography | <img src="docs/icons/googlefonts.svg" alt="Sora + Inter" title="Sora + Inter" width="20" height="20"> Sora + Inter | Sora for headings, Inter for text |
+| Data pipeline | <img src="docs/icons/n8n.svg" alt="N8N" title="N8N" width="20" height="20"> N8N · <img src="docs/icons/googlesheets.svg" alt="Google Sheets" title="Google Sheets" width="20" height="20"> Google Sheets | Webhook workflow that serves the catalog as JSON |
 | Sample data | **DummyJSON** | Product catalog and product images |
 | Linting | `oxlint` | Fast linting |
 | Testing | `Playwright` | Manual end-to-end flows on an emulated Android phone |
-| CI and hosting | ![GitHub Actions](https://img.shields.io/badge/-GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/-GitHub_Pages-222222?style=flat-square&logo=githubpages&logoColor=white) | Build and deploy on every push to `master` |
+| CI and hosting | <img src="docs/icons/githubactions.svg" alt="GitHub Actions" title="GitHub Actions" width="20" height="20"> GitHub Actions · <img src="docs/icons/githubpages.svg" alt="GitHub Pages" title="GitHub Pages" width="20" height="20"> GitHub Pages | Build and deploy on every push to `master` |
 
 ## Architecture and data flow
 
@@ -200,13 +191,12 @@ scripts/                Manual end-to-end check (mock N8N server + Playwright fl
 
 ## Engineering highlights
 
-- **Data you can trust.** A single normalization layer converts messy spreadsheet rows (blank cells, numbers
+- **Data you can trust.** A single normalization layer converts irregular spreadsheet rows (blank cells, numbers
   stored as text, null fields) into a strict `Product` type, so the UI never has to defend itself.
 - **Fast, resilient loading.** Stale-while-revalidate caching with a timeout and retries keeps the store
   instant on return visits and usable when the webhook is slow or down.
-- **Bug found on a real device, fixed with a regression test.** A newer Android Chrome returns a Promise from
-  `window.scrollTo`; returning it from an effect crashed navigation. The fix and a reproduction mode now live in
-  the end-to-end script.
+- **Cross-browser robustness.** Effects follow React's cleanup contract strictly, so navigation stays smooth even in
+  newer browsers whose scroll APIs return Promises. The behavior is covered by the end-to-end script.
 - **Accessible by default.** Labeled controls, `aria-pressed` states, 44 px touch targets, visible focus rings
   and reduced-motion support.
 - **Motion with purpose.** Animations explain what happened (the item flies to the cart, the receipt prints) and
@@ -227,8 +217,8 @@ and publishes it to **GitHub Pages**.
 
 A manual end-to-end check lives in [`scripts/`](scripts/README.md). It starts a mock N8N server and drives the
 store with Playwright on an emulated Android phone: home, categories, favorites, product zoom, fly-to-cart,
-cart drawer, payment, receipt and reload persistence. It also covers messy data, corrupted browser storage,
-reduced motion and the `scrollTo` regression.
+cart drawer, payment, receipt and reload persistence. It also covers irregular data, unavailable browser storage,
+reduced motion and newer-browser scroll behavior.
 
 ## Roadmap
 
@@ -248,7 +238,7 @@ Ideas for future iterations (not built yet):
 - **[Motion](https://motion.dev)** for animation, **[Sonner](https://sonner.emilkowal.ski)** for toasts and
   **[canvas-confetti](https://github.com/catdad/canvas-confetti)** for the celebration effect.
 - **[Lucide](https://lucide.dev)** for icons and **[Google Fonts](https://fonts.google.com)** for Sora and Inter.
-- **[shields.io](https://shields.io)** and **[Simple Icons](https://simpleicons.org)** for the badges in this file.
+- **[Simple Icons](https://simpleicons.org)** (CC0) for the technology logos in this file, stored in `docs/icons/`.
 - Designed and built with **[Claude Code](https://claude.com/claude-code)** as an AI pair programmer.
 
 ## Author and license

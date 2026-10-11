@@ -38,7 +38,7 @@ Keep `README.md` (portfolio page: stack, data flow, env vars, routes) up to date
 - Favorites: `src/context/favorites-context.tsx` (localStorage).
 - Toasts use `sonner` (`src/components/ui/sonner.tsx`, dark glass styling).
 - `useEffect` callbacks must use a block body and never return a value other than a cleanup function
-  (newer browsers return a Promise from `scrollTo`, which crashed the app on navigation).
+  (newer browsers return a Promise from `scrollTo`, and React treats a returned value as a cleanup function).
 - The shadcn registry may be unreachable; write shadcn-style components by hand on top of `radix-ui`.
 - Manual end-to-end check: `scripts/README.md` and `scripts/flow.cjs` (`REDUCE=1` tests reduced motion).
 

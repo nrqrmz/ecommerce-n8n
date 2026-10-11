@@ -14,7 +14,7 @@ NODE_PATH=$(npm root -g) node scripts/flow.cjs clean none    # full shopping flo
 
 `flow.cjs <data> <state>`:
 
-- `<data>`: `clean`, `messy` (blank cells, text numbers, nulls, broken images) or `wrapped` (`{ "data": [...] }`).
-- `<state>`: `none`, `promise` (`scrollTo` returns a Promise, the Android regression), `oldcart` (corrupt saved
-  cart) or `blocked` (browser storage unavailable).
+- `<data>`: `clean`, `messy` (blank cells, numbers as text, nulls, unavailable images) or `wrapped` (`{ "data": [...] }`).
+- `<state>`: `none`, `promise` (newer browsers where `scrollTo` returns a Promise), `oldcart` (invalid saved
+  cart data) or `blocked` (browser storage unavailable).
 - Environment: `REDUCE=1` enables reduced motion, `SHOTS=<dir>` saves screenshots.
