@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
 import App from './App'
+import { CartProvider } from './context/cart-context'
+import { ProductsProvider } from './context/products-context'
 import './index.css'
 
 // BASE_URL is "/" locally and on Vercel/Netlify, and "/<repo-name>/" on GitHub Pages.
@@ -10,7 +12,11 @@ import './index.css'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <App />
+      <ProductsProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </ProductsProvider>
     </BrowserRouter>
   </StrictMode>,
 )

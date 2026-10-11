@@ -1,33 +1,38 @@
-import { Link, Outlet, Route, Routes } from 'react-router-dom'
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
+import { Footer, Header } from '@/components/shop/header'
+import CartPage from '@/pages/CartPage'
 import HomePage from '@/pages/HomePage'
-import ItemPage from '@/pages/ItemPage'
 import NotFoundPage from '@/pages/NotFoundPage'
+import OrderConfirmedPage from '@/pages/OrderConfirmedPage'
+import ProductPage from '@/pages/ProductPage'
+import ProductsPage from '@/pages/ProductsPage'
 
 function Layout() {
+  const { pathname } = useLocation()
+  useEffect(() => window.scrollTo({ top: 0 }), [pathname])
   return (
-    <div className="min-h-screen">
-      <header className="border-b">
-        <div className="mx-auto flex h-14 max-w-4xl items-center px-4">
-          <Link to="/" className="font-semibold">
-            My App
-          </Link>
-        </div>
-      </header>
-      <main className="mx-auto max-w-4xl px-4 py-8">
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1">
         <Outlet />
       </main>
+      <Footer />
     </div>
   )
 }
 
-// All routes live here. The pages below are examples: replace them with your own.
+// All routes live here.
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/items/:id" element={<ItemPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/order-confirmed" element={<OrderConfirmedPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

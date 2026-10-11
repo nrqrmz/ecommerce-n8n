@@ -2,24 +2,18 @@
 
 ## What this project is
 A prototype template: Vite + React + TypeScript + Tailwind CSS + shadcn/ui +
-React Router (`BrowserRouter`) + Supabase client. The user is not technical:
+React Router (`BrowserRouter`). It is an e-commerce prototype; Supabase is NOT used. The user is not technical:
 explain things in simple language and handle the code and Git yourself.
 All code, comments, commit messages and UI text must be in English.
 
-## Security (most important)
-1. Every new table must be created with Row Level Security enabled and at least
-   one policy, in the same migration. Never disable RLS "to make it work".
-2. Before every commit, check that no table is left without RLS.
-3. Never write the Supabase `service_role` key in any file. Only the project URL
-   and the anon/publishable key are allowed in this repo.
-
-## Supabase
-- When the user connects a Supabase project, read its URL and anon/publishable key
-  with the Supabase connector and write them to `.env`
-  (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Commit `.env`: this is intentional,
-  these two values are public.
-- The client lives in `src/lib/supabase.ts`. Always use it; do not create another one.
-- Create tables through migrations, not by hand.
+## Data (N8N)
+- Products come from an N8N webhook JSON, URL in `.env` as `VITE_N8N_PRODUCTS_URL` (public, committed on purpose).
+  Never put secrets in `.env`.
+- Raw JSON fields: `id, title, description, category, price, brand, sku, width, height, depth, image_url,
+  thumbnail` (+ `row_number`, ignored). Mapping lives only in `src/lib/products.ts` (`normalizeProduct`).
+- Products are fetched once by `ProductsProvider` (`src/context/products-context.tsx`).
+- The cart (`src/context/cart-context.tsx`) is in memory only; checkout is simulated.
+- The N8N Webhook node must allow CORS for the browser to read it.
 
 ## Routing and deployment
 - Use `BrowserRouter`. Do not replace it with `HashRouter`.
@@ -44,10 +38,11 @@ All code, comments, commit messages and UI text must be in English.
 - `src/components/ui/`: shadcn/ui components. Add new ones following the same
   style (or with `npx shadcn@latest add <name>`); `components.json` is configured.
 - `src/components/chat/`: `ChatMessage` and `ChatInput`, ready for chat-style apps.
-- `src/lib/`: utilities and the Supabase client.
+- `src/lib/`: utilities and product mapping. `src/context/`: products and cart state.
+- `src/components/shop/`: store components (header, product card, filters, pagination).
 - Style with Tailwind classes only. No separate CSS unless strictly necessary.
 - Import with the `@/` alias (maps to `src/`).
 
-## The example is temporary
-The example pages (home, `/items/:id`, 404) only demonstrate dynamic routes.
-Replace or delete them when building the real app.
+## Routes
+`/` home, `/products` catalog (filters in URL query), `/products/:id` detail, `/cart`, `/order-confirmed`.
+Design is mobile-first: base Tailwind classes are the phone layout, `md:`/`lg:` enlarge it.
