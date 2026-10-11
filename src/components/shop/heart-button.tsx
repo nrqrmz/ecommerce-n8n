@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Heart } from 'lucide-react'
 
@@ -15,6 +16,7 @@ export function HeartButton({
 }) {
   const { has, toggle } = useFavorites()
   const active = has(productId)
+  const gradientId = useId()
   return (
     <motion.button
       type="button"
@@ -31,6 +33,15 @@ export function HeartButton({
         className,
       )}
     >
+      {/* Brand gradient (same violet to fuchsia as the add-to-cart button) for the filled heart. */}
+      <svg width="0" height="0" className="absolute" aria-hidden>
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" style={{ stopColor: 'var(--glow-1)' }} />
+            <stop offset="100%" style={{ stopColor: 'var(--glow-2)' }} />
+          </linearGradient>
+        </defs>
+      </svg>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={active ? 'on' : 'off'}
@@ -39,7 +50,10 @@ export function HeartButton({
           exit={{ scale: 0.3, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 500, damping: 18 }}
         >
-          <Heart className={cn('size-5', active && 'fill-glow-3 text-glow-3 drop-shadow-[0_0_8px_var(--glow-3)]')} />
+          <Heart
+            className={cn('size-5', active && 'drop-shadow-[0_0_8px_var(--glow-2)]')}
+            style={active ? { fill: `url(#${gradientId})`, stroke: `url(#${gradientId})` } : undefined}
+          />
         </motion.span>
       </AnimatePresence>
     </motion.button>
