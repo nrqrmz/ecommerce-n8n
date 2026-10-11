@@ -39,7 +39,7 @@ export function HeartButton({
           exit={{ scale: 0.3, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 500, damping: 18 }}
         >
-          <Heart className={cn('size-5', active && 'fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgb(244_63_94)]')} />
+          <Heart className={cn('size-5', active && 'fill-glow-3 text-glow-3 drop-shadow-[0_0_8px_var(--glow-3)]')} />
         </motion.span>
       </AnimatePresence>
     </motion.button>
