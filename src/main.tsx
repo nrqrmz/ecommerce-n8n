@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
 import App from './App'
+import { ErrorBoundary } from './components/shop/error-boundary'
 import { CartProvider } from './context/cart-context'
 import { ProductsProvider } from './context/products-context'
 import './index.css'
@@ -12,11 +13,13 @@ import './index.css'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <ErrorBoundary>
       <ProductsProvider>
         <CartProvider>
           <App />
         </CartProvider>
       </ProductsProvider>
+      </ErrorBoundary>
     </BrowserRouter>
   </StrictMode>,
 )

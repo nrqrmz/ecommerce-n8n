@@ -12,7 +12,8 @@ All code, comments, commit messages and UI text must be in English.
 - Raw JSON fields: `id, title, description, category, price, brand, sku, width, height, depth, image_url,
   thumbnail` (+ `row_number`, ignored). Mapping lives only in `src/lib/products.ts` (`normalizeProduct`).
 - Products are fetched once by `ProductsProvider` (`src/context/products-context.tsx`).
-- The cart (`src/context/cart-context.tsx`) is in memory only; checkout is simulated.
+- The cart (`src/context/cart-context.tsx`) is saved in localStorage; checkout is simulated.
+- Products are cached in localStorage for 24 h (`src/lib/products-cache.ts`) and refreshed from N8N in the background.
 - The N8N Webhook node must allow CORS for the browser to read it.
 
 ## Routing and deployment
