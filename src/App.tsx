@@ -11,7 +11,11 @@ import ProductsPage from '@/pages/ProductsPage'
 
 function Layout() {
   const { pathname } = useLocation()
-  useEffect(() => window.scrollTo({ top: 0 }), [pathname])
+  // Use a block body: newer browsers return a Promise from scrollTo, and React would
+  // mistake a returned value for a cleanup function and crash on the next navigation.
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [pathname])
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

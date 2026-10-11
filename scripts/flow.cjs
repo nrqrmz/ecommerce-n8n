@@ -10,6 +10,7 @@ const variant = process.argv[2], pre = process.argv[3] || 'none'
   p.on('pageerror', e => errs.push('pageerror: ' + e.message))
   p.on('console', m => m.type() === 'error' && !/Failed to load resource/.test(m.text()) && errs.push('console: ' + m.text().slice(0, 200)))
   const bad = async step => { const t = await p.locator('body').innerText(); if (/Something went wrong/.test(t)) { console.log(`  BOUNDARY at "${step}":`, t.split('Technical details')[1]?.slice(0, 250).replace(/\n/g, ' ')); return true } return false }
+  if (pre === 'promise') await ctx.addInitScript(() => { const o = window.scrollTo.bind(window); window.scrollTo = (...a) => { o(...a); return Promise.resolve() } })
   if (pre === 'oldcart') await ctx.addInitScript(() => { localStorage.setItem('cart:v1', JSON.stringify([{ product: { id: 1, title: 'x', price: 'abc' }, quantity: 2 }, { id: 3 }])) })
   if (pre === 'blocked') await ctx.addInitScript(() => { Object.defineProperty(window, 'localStorage', { get() { throw new Error('blocked') } }) })
   let ok = true

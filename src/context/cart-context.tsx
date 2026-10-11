@@ -99,7 +99,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, dispatch] = useReducer(reducer, undefined, loadCart)
   const [lastOrder, setLastOrder] = useState<string | null>(loadOrder)
 
-  useEffect(() => saveCart(lines), [lines])
+  useEffect(() => {
+    saveCart(lines)
+  }, [lines])
 
   useEffect(() => {
     function onStorage(e: StorageEvent) {
