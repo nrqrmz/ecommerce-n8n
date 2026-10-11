@@ -31,8 +31,8 @@ All code, comments, commit messages and UI text must be in English.
 
 ## Git workflow
 - The main branch is `master`. The preview updates only when changes reach `master`.
-- If you work on another branch, merge it into `master` (or open a pull request)
-  when the user wants to see the preview.
+- Work and commit directly on `master` (the user reviews and approves there). Do not create
+  feature branches or pull requests unless the user asks.
 
 ## Structure and conventions
 - Routes are defined in `src/App.tsx`. Pages live in `src/pages/`.
