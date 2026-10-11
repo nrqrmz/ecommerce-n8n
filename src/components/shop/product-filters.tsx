@@ -1,4 +1,4 @@
-import { Search, X } from 'lucide-react'
+import { ChevronDown, Search, X } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import { categoryLabel } from '@/lib/products'
@@ -61,18 +61,21 @@ export function ProductFilters({
             </button>
           )}
         </div>
-        <select
-          className="h-11 w-36 shrink-0 rounded-full border bg-card px-4 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:w-48"
-          value={sort}
-          onChange={(e) => onChange({ sort: e.target.value as SortKey })}
-          aria-label="Sort products"
-        >
-          <option value="default">Featured</option>
-          <option value="price-asc">Price: low to high</option>
-          <option value="price-desc">Price: high to low</option>
-          <option value="name-asc">Name: A to Z</option>
-          <option value="name-desc">Name: Z to A</option>
-        </select>
+        <div className="relative w-36 shrink-0 sm:w-48">
+          <select
+            className="glass h-12 w-full appearance-none rounded-full pr-11 pl-4 text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>option]:bg-popover"
+            value={sort}
+            onChange={(e) => onChange({ sort: e.target.value as SortKey })}
+            aria-label="Sort products"
+          >
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+          </select>
+          <ChevronDown className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-muted-foreground" />
+        </div>
       </div>
       <div
         role="group"
