@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'motion/react'
 import { Heart } from 'lucide-react'
 
 import { useFavorites } from '@/context/favorites-context'
@@ -15,8 +16,9 @@ export function HeartButton({
   const { has, toggle } = useFavorites()
   const active = has(productId)
   return (
-    <button
+    <motion.button
       type="button"
+      whileTap={{ scale: 0.8 }}
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -25,13 +27,21 @@ export function HeartButton({
       aria-pressed={active}
       aria-label={active ? `Remove ${title} from favorites` : `Add ${title} to favorites`}
       className={cn(
-        'flex size-11 items-center justify-center rounded-full bg-background/90 shadow-sm backdrop-blur transition hover:scale-105 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none',
+        'relative z-10 flex size-11 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white backdrop-blur-md transition hover:bg-black/50 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none',
         className,
       )}
     >
-      <Heart
-        className={cn('size-5 transition-colors', active ? 'fill-rose-500 text-rose-500' : 'text-foreground/70')}
-      />
-    </button>
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={active ? 'on' : 'off'}
+          initial={{ scale: 0.3, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.3, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 18 }}
+        >
+          <Heart className={cn('size-5', active && 'fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgb(244_63_94)]')} />
+        </motion.span>
+      </AnimatePresence>
+    </motion.button>
   )
 }

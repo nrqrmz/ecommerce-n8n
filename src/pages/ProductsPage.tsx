@@ -71,8 +71,8 @@ export default function ProductsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 md:py-10">
-      <h1 className="mb-5 text-2xl font-extrabold tracking-tight md:text-3xl">
-        {category ? categoryLabel(category) : 'All products'}
+      <h1 className="mb-6 font-display text-4xl font-extrabold tracking-tight md:text-6xl">
+        {category ? categoryLabel(category) : <>All <span className="text-gradient">products</span></>}
       </h1>
       <ProductFilters
         q={q}

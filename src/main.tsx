@@ -1,4 +1,5 @@
 import { StrictMode } from 'react'
+import { MotionConfig } from 'motion/react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -7,7 +8,7 @@ import { ErrorBoundary } from './components/shop/error-boundary'
 import { CartProvider } from './context/cart-context'
 import { FavoritesProvider } from './context/favorites-context'
 import { ProductsProvider } from './context/products-context'
-import { ThemeProvider } from './context/theme-context'
+import { FlyToCartProvider } from './context/fly-to-cart-context'
 import './index.css'
 
 // BASE_URL is "/" locally and on Vercel/Netlify, and "/<repo-name>/" on GitHub Pages.
@@ -15,17 +16,19 @@ import './index.css'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <ThemeProvider>
+      <MotionConfig reducedMotion="user">
         <ErrorBoundary>
           <ProductsProvider>
             <CartProvider>
               <FavoritesProvider>
-                <App />
+                <FlyToCartProvider>
+                  <App />
+                </FlyToCartProvider>
               </FavoritesProvider>
             </CartProvider>
           </ProductsProvider>
         </ErrorBoundary>
-      </ThemeProvider>
+      </MotionConfig>
     </BrowserRouter>
   </StrictMode>,
 )

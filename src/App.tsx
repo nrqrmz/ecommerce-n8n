@@ -1,6 +1,8 @@
-import { Outlet, Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, useOutlet } from 'react-router-dom'
 import { useEffect } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 
+import { AuroraBackground } from '@/components/fx/aurora-background'
 import { Footer, Header } from '@/components/shop/header'
 import { CartDrawer } from '@/components/shop/cart-drawer'
 import { Toaster } from '@/components/ui/sonner'
@@ -14,6 +16,7 @@ import ProductsPage from '@/pages/ProductsPage'
 
 function Layout() {
   const { pathname } = useLocation()
+  const outlet = useOutlet()
   // Use a block body: newer browsers return a Promise from scrollTo, and React would
   // mistake a returned value for a cleanup function and crash on the next navigation.
   useEffect(() => {
@@ -21,9 +24,20 @@ function Layout() {
   }, [pathname])
   return (
     <div className="flex min-h-screen flex-col">
+      <AuroraBackground />
       <Header />
       <main className="flex-1">
-        <Outlet />
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+          >
+            {outlet}
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
       <CartDrawer />

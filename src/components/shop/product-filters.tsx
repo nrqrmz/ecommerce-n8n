@@ -15,8 +15,8 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       className={cn(
         'h-10 shrink-0 rounded-full border px-4 text-sm font-medium whitespace-nowrap transition-colors',
         active
-          ? 'border-primary bg-primary text-primary-foreground'
-          : 'bg-card hover:border-primary/40 hover:text-primary',
+          ? 'border-transparent bg-gradient-to-r from-glow-1 to-glow-2 text-white shadow-[0_0_20px_var(--glow-1)]'
+          : 'glass hover:bg-white/10',
       )}
     >
       {children}
@@ -48,14 +48,14 @@ export function ProductFilters({
             onChange={(e) => onChange({ q: e.target.value })}
             placeholder="Search products"
             aria-label="Search products"
-            className="h-11 rounded-full bg-card pr-11 pl-10 [&::-webkit-search-cancel-button]:hidden"
+            className="glass h-12 rounded-full pr-11 pl-10 text-base md:text-sm [&::-webkit-search-cancel-button]:hidden"
           />
           {q && (
             <button
               type="button"
               onClick={() => onChange({ q: '' })}
               aria-label="Clear search"
-              className="absolute top-1/2 right-0 flex size-11 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:text-foreground"
+              className="absolute top-1/2 right-0.5 flex size-11 -translate-y-1/2 items-center justify-center rounded-full text-muted-foreground hover:text-foreground"
             >
               <X className="size-4" />
             </button>

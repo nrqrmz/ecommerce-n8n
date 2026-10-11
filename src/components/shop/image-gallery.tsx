@@ -5,7 +5,15 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import { ProductImage } from '@/components/shop/product-image'
 import { cn } from '@/lib/utils'
 
-export function ImageGallery({ images, alt }: { images: string[]; alt: string }) {
+export function ImageGallery({
+  images,
+  alt,
+  imageRef,
+}: {
+  images: string[]
+  alt: string
+  imageRef?: React.Ref<HTMLDivElement>
+}) {
   const list = images.length > 0 ? images : ['']
   const [index, setIndex] = useState(0)
   const [open, setOpen] = useState(false)
@@ -20,11 +28,17 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
           setZoomed(false)
           setOpen(true)
         }}
-        className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl border bg-muted"
+        className="group relative block w-full cursor-zoom-in overflow-hidden rounded-[2rem] shadow-[0_40px_80px_-20px_rgb(0_0_0/0.8)] ring-1 ring-white/15"
         aria-label="Open image in full screen"
       >
-        <ProductImage src={current} alt={alt} eager className="bg-transparent" />
-        <span className="absolute right-3 bottom-3 flex items-center gap-1 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium shadow-sm">
+        <ProductImage
+          ref={imageRef}
+          src={current}
+          alt={alt}
+          eager
+          className="transition-transform duration-700 group-hover:scale-105"
+        />
+        <span className="absolute right-3 bottom-3 flex items-center gap-1 rounded-full bg-black/60 px-3 py-1.5 text-xs font-medium text-white backdrop-blur">
           <ZoomIn className="size-4" /> Tap to zoom
         </span>
       </button>
@@ -39,11 +53,11 @@ export function ImageGallery({ images, alt }: { images: string[]; alt: string })
               aria-label={`Show image ${i + 1}`}
               aria-current={i === index}
               className={cn(
-                'w-20 overflow-hidden rounded-xl border-2 bg-muted transition',
-                i === index ? 'border-primary' : 'border-transparent opacity-70 hover:opacity-100',
+                'w-20 overflow-hidden rounded-2xl ring-2 transition',
+                i === index ? 'ring-glow-1 shadow-[0_0_16px_var(--glow-1)]' : 'ring-transparent opacity-60 hover:opacity-100',
               )}
             >
-              <ProductImage src={src} alt="" className="bg-transparent" />
+              <ProductImage src={src} alt="" />
             </button>
           ))}
         </div>

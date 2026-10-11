@@ -19,15 +19,27 @@ All code, comments, commit messages and UI text must be in English.
 
 ## UI
 - Store name and tagline live in `src/lib/brand.ts` (Cartwell, "Shop well. Live well.").
-- Brand color is indigo, defined as tokens in `src/index.css` (`:root` and `.dark`). Font: Inter.
-- Dark mode: `src/context/theme-context.tsx`; `index.html` applies the saved theme before React loads.
-- Favorites: `src/context/favorites-context.tsx` (localStorage). Cart drawer: `src/components/shop/cart-drawer.tsx`,
-  opened via `setDrawerOpen` from the cart context. Add to cart with `useAddToCart()` (shows a toast).
-- Toasts use `sonner` (`src/components/ui/sonner.tsx`, wired to our theme, no next-themes).
+- Design: **immersive dark, dark-only** (`<html class="dark">`). Tokens and utilities (`glass`,
+  `text-gradient`, `spotlight`, `animate-marquee`, `animate-shimmer`, `glow-1/2/3` colors) are in
+  `src/index.css`. Fonts: Sora (`font-display`, headings) + Inter (body).
+- Effects live in `src/components/fx/`: `AuroraBackground` (drifting glows), `InteractiveCard` (pointer glow +
+  3D tilt on desktop only), `Reveal` (fade-up on scroll).
+- `ProductImage` shows photos on a lit "studio" tile with `mix-blend-multiply` (the source images have white
+  backgrounds). Keep it for every product photo.
+- Animations use Motion (`motion/react`). `MotionConfig reducedMotion="user"` is set at the root; new
+  effects must also degrade gracefully with reduced motion.
+- Add to cart with `useAddToCart()(product, qty, imageElement)`: the image flies into the header cart icon
+  (`src/context/fly-to-cart-context.tsx`) and a toast offers "View cart" (opens the drawer).
+- Cart drawer: `src/components/shop/cart-drawer.tsx` (bottom sheet on phones, right panel on desktop),
+  opened via `setDrawerOpen` from the cart context.
+- Checkout stores the full order (`lastOrder`: id, lines, total, date) in sessionStorage; the confirmation page
+  shows confetti (`canvas-confetti`), an animated check and a printed receipt.
+- Favorites: `src/context/favorites-context.tsx` (localStorage).
+- Toasts use `sonner` (`src/components/ui/sonner.tsx`, dark glass styling).
 - `useEffect` callbacks must use a block body and never return a value other than a cleanup function
   (newer browsers return a Promise from `scrollTo`, which crashed the app on navigation).
 - The shadcn registry may be unreachable; write shadcn-style components by hand on top of `radix-ui`.
-- Manual end-to-end check: `scripts/README.md` and `scripts/flow.cjs`.
+- Manual end-to-end check: `scripts/README.md` and `scripts/flow.cjs` (`REDUCE=1` tests reduced motion).
 
 ## Routing and deployment
 - Use `BrowserRouter`. Do not replace it with `HashRouter`.

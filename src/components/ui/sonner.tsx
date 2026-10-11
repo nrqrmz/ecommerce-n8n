@@ -1,14 +1,17 @@
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
 
-import { useTheme } from '@/context/theme-context'
-
-/** shadcn-style Toaster wired to our own theme context (no next-themes). */
+/** shadcn-style Toaster, fixed to the dark theme with glass styling. */
 function Toaster(props: ToasterProps) {
-  const { resolved } = useTheme()
   return (
     <Sonner
-      theme={resolved}
+      theme="dark"
       className="toaster group"
+      toastOptions={{
+        classNames: {
+          toast: '!rounded-2xl !border-white/10 !bg-[oklch(0.2_0.03_278/0.85)] !backdrop-blur-xl !shadow-2xl',
+          actionButton: '!rounded-full !bg-primary !px-3 !font-semibold',
+        },
+      }}
       style={
         {
           '--normal-bg': 'var(--popover)',

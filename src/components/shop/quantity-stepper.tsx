@@ -1,7 +1,9 @@
 import { Minus, Plus } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+
+const btn =
+  'flex size-11 items-center justify-center rounded-full transition-colors hover:bg-white/10 disabled:opacity-40 disabled:hover:bg-transparent'
 
 export function QuantityStepper({
   value,
@@ -17,30 +19,16 @@ export function QuantityStepper({
   className?: string
 }) {
   return (
-    <div className={cn('inline-flex items-center rounded-lg border bg-background', className)}>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="size-11 rounded-r-none"
-        aria-label="Decrease quantity"
-        disabled={value <= min}
-        onClick={() => onChange(value - 1)}
-      >
-        <Minus />
-      </Button>
-      <span className="w-9 text-center text-sm font-semibold tabular-nums" aria-live="polite">
+    <div className={cn('glass inline-flex items-center rounded-full', className)}>
+      <button type="button" className={btn} aria-label="Decrease quantity" disabled={value <= min} onClick={() => onChange(value - 1)}>
+        <Minus className="size-4" />
+      </button>
+      <span className="w-8 text-center text-sm font-bold tabular-nums" aria-live="polite">
         {value}
       </span>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="size-11 rounded-l-none"
-        aria-label="Increase quantity"
-        disabled={value >= max}
-        onClick={() => onChange(value + 1)}
-      >
-        <Plus />
-      </Button>
+      <button type="button" className={btn} aria-label="Increase quantity" disabled={value >= max} onClick={() => onChange(value + 1)}>
+        <Plus className="size-4" />
+      </button>
     </div>
   )
 }

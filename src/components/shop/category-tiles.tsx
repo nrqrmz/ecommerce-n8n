@@ -1,6 +1,9 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { ArrowUpRight } from 'lucide-react'
 
+import { InteractiveCard } from '@/components/fx/interactive-card'
+import { Reveal } from '@/components/fx/reveal'
 import { useProducts } from '@/context/products-context'
 import { categoryIcon } from '@/lib/category-icons'
 import { categoryLabel } from '@/lib/products'
@@ -14,21 +17,29 @@ export function CategoryTiles() {
   }, [products])
 
   return (
-    <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 lg:grid-cols-5">
-      {categories.map((c) => {
+    <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pt-1 pb-3 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 lg:grid-cols-5">
+      {categories.map((c, i) => {
         const Icon = categoryIcon(c)
         return (
-          <Link
-            key={c}
-            to={`/products?category=${encodeURIComponent(c)}`}
-            className="group flex w-32 shrink-0 snap-start flex-col items-center gap-2 rounded-2xl border bg-card p-4 text-center transition hover:border-primary/40 hover:shadow-md md:w-auto"
-          >
-            <span className="flex size-12 items-center justify-center rounded-xl bg-accent text-accent-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-              <Icon className="size-6" />
-            </span>
-            <span className="text-sm font-semibold leading-tight">{categoryLabel(c)}</span>
-            <span className="text-xs text-muted-foreground">{counts.get(c) ?? 0} items</span>
-          </Link>
+          <Reveal key={c} index={i} className="w-36 shrink-0 snap-start md:w-auto">
+            <InteractiveCard className="h-full">
+              <Link
+                to={`/products?category=${encodeURIComponent(c)}`}
+                className="flex h-full flex-col gap-6 p-4"
+              >
+                <div className="flex items-start justify-between">
+                  <span className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-glow-1/40 to-glow-2/30 text-white ring-1 ring-white/15 transition-shadow group-hover/card:shadow-[0_0_24px_var(--glow-1)]">
+                    <Icon className="size-6" />
+                  </span>
+                  <ArrowUpRight className="size-5 text-muted-foreground transition group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5 group-hover/card:text-foreground" />
+                </div>
+                <div>
+                  <p className="font-display leading-tight font-semibold">{categoryLabel(c)}</p>
+                  <p className="text-xs text-muted-foreground">{counts.get(c) ?? 0} items</p>
+                </div>
+              </Link>
+            </InteractiveCard>
+          </Reveal>
         )
       })}
     </div>

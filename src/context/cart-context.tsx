@@ -39,11 +39,19 @@ function reducer(lines: CartLine[], action: Action): CartLine[] {
   }
 }
 
+export interface Order {
+  id: string
+  lines: CartLine[]
+  total: number
+  date: string
+}
+
 interface CartState {
   lines: CartLine[]
   count: number
   total: number
-  lastOrder: string | null
+  /** The last completed (simulated) order, for the confirmation page. */
+  lastOrder: Order | null
   add: (product: Product, quantity?: number) => void
   setQuantity: (id: number, quantity: number) => void
   remove: (id: number) => void
@@ -57,7 +65,7 @@ interface CartState {
 const CartContext = createContext<CartState | null>(null)
 
 const CART_KEY = 'cart:v1'
-const ORDER_KEY = 'lastOrder:v1'
+const ORDER_KEY = 'lastOrder:v2'
 
 function isLine(v: unknown): v is CartLine {
   const l = v as CartLine
@@ -89,9 +97,11 @@ function saveCart(lines: CartLine[]) {
   }
 }
 
-function loadOrder(): string | null {
+function loadOrder(): Order | null {
   try {
-    return sessionStorage.getItem(ORDER_KEY)
+    const o = JSON.parse(sessionStorage.getItem(ORDER_KEY) ?? 'null') as Order | null
+    if (!o || typeof o.id !== 'string' || typeof o.total !== 'number' || !Array.isArray(o.lines)) return null
+    return { ...o, lines: o.lines.filter(isLine) }
   } catch {
     return null
   }
@@ -100,7 +110,7 @@ function loadOrder(): string | null {
 // The cart is saved in localStorage so it survives reloads and is shared between tabs.
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, dispatch] = useReducer(reducer, undefined, loadCart)
-  const [lastOrder, setLastOrder] = useState<string | null>(loadOrder)
+  const [lastOrder, setLastOrder] = useState<Order | null>(loadOrder)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => {
@@ -127,16 +137,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   )
   const remove = useCallback((id: number) => dispatch({ type: 'remove', id }), [])
   const checkout = useCallback(() => {
-    const order = `ORD-${Date.now().toString(36).toUpperCase()}`
+    const order: Order = {
+      id: `ORD-${Date.now().toString(36).toUpperCase()}`,
+      lines,
+      total: lines.reduce((sum, l) => sum + l.quantity * l.product.price, 0),
+      date: new Date().toISOString(),
+    }
     setLastOrder(order)
     try {
-      sessionStorage.setItem(ORDER_KEY, order)
+      sessionStorage.setItem(ORDER_KEY, JSON.stringify(order))
     } catch {
       // Ignore: the confirmation page then only works until the next reload.
     }
     dispatch({ type: 'clear' })
-    return order
-  }, [])
+    return order.id
+  }, [lines])
 
   const value = useMemo(
     () => ({

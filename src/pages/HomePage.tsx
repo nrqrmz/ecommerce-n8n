@@ -2,13 +2,13 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { Reveal } from '@/components/fx/reveal'
 import { CategoryTiles } from '@/components/shop/category-tiles'
 import { ErrorState } from '@/components/shop/error-state'
+import { Hero } from '@/components/shop/hero'
 import { ProductCard, ProductGridSkeleton } from '@/components/shop/product-card'
 import { useProducts } from '@/context/products-context'
-import { STORE_NAME, TAGLINE } from '@/lib/brand'
-import type { Product } from '@/lib/products'
+import { categoryLabel, type Product } from '@/lib/products'
 
 function sample(list: Product[], n: number) {
   const copy = [...list]
@@ -19,13 +19,37 @@ function sample(list: Product[], n: number) {
   return copy.slice(0, n)
 }
 
-function SectionHeader({ title, to, linkLabel }: { title: string; to: string; linkLabel: string }) {
+function SectionHeader({ eyebrow, title, to, linkLabel }: { eyebrow: string; title: string; to: string; linkLabel: string }) {
   return (
-    <div className="mb-4 flex items-end justify-between gap-4">
-      <h2 className="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
-      <Link to={to} className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+    <div className="mb-6 flex items-end justify-between gap-4">
+      <div>
+        <p className="mb-1 text-xs font-bold tracking-[0.2em] text-glow-3 uppercase">{eyebrow}</p>
+        <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">{title}</h2>
+      </div>
+      <Link to={to} className="flex shrink-0 items-center gap-1 text-sm font-semibold text-accent-foreground hover:underline">
         {linkLabel} <ArrowRight className="size-4" />
       </Link>
+    </div>
+  )
+}
+
+function Marquee({ items }: { items: string[] }) {
+  if (items.length === 0) return null
+  const row = [...items, ...items]
+  return (
+    <div className="relative mt-14 overflow-hidden border-y border-white/10 py-4 [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+      <div className="animate-marquee flex w-max gap-10 hover:[animation-play-state:paused]">
+        {row.map((c, i) => (
+          <Link
+            key={c + i}
+            to={`/products?category=${encodeURIComponent(c)}`}
+            className="flex items-center gap-10 font-display text-xl font-semibold whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground md:text-2xl"
+          >
+            {categoryLabel(c)}
+            <span className="text-glow-2">✦</span>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }
@@ -33,50 +57,24 @@ function SectionHeader({ title, to, linkLabel }: { title: string; to: string; li
 export default function HomePage() {
   const { products, categories, loading, error, retry } = useProducts()
   // Reshuffled each time the products load or the page is visited.
-  const suggested = useMemo(() => sample(products, 8), [products])
+  const suggested = useMemo(() => sample(products, 7), [products])
 
   return (
     <div>
-      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-500 to-violet-500 text-white dark:from-indigo-950 dark:via-indigo-900 dark:to-violet-950">
-        <div className="pointer-events-none absolute -top-24 -right-24 size-72 rounded-full bg-white/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-16 size-80 rounded-full bg-violet-300/20 blur-3xl" />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-5 px-4 py-14 md:py-24">
-          <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold tracking-wide uppercase">
-            {STORE_NAME}
-          </span>
-          <h1 className="max-w-xl text-4xl font-extrabold tracking-tight md:text-6xl">{TAGLINE}</h1>
-          <p className="max-w-md text-white/85 md:text-lg">
-            {products.length > 0 ? `${products.length} products` : 'Products'} across{' '}
-            {categories.length > 0 ? `${categories.length} categories` : 'many categories'}, from beauty to tech.
-            Checkout in seconds.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" className="h-12 bg-white px-7 text-indigo-700 hover:bg-white/90">
-              <Link to="/products">Shop now</Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-12 border-white/40 bg-transparent px-7 text-white hover:bg-white/10 hover:text-white"
-            >
-              <a href="#categories">Browse categories</a>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <Hero />
+      <Marquee items={categories} />
 
-      <div className="mx-auto max-w-6xl space-y-12 px-4 py-10 md:py-14">
+      <div className="mx-auto max-w-6xl space-y-20 px-4 py-14 md:py-20">
         {error ? (
           <ErrorState message={error} onRetry={retry} />
         ) : (
           <>
-            <section id="categories" className="scroll-mt-20">
-              <SectionHeader title="Shop by category" to="/products" linkLabel="All products" />
+            <section id="categories" className="scroll-mt-24">
+              <SectionHeader eyebrow="Browse" title="Shop by category" to="/products" linkLabel="All products" />
               {loading ? (
                 <div className="flex gap-3 overflow-hidden">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <div key={i} className="h-32 w-32 shrink-0 animate-pulse rounded-2xl bg-muted md:flex-1" />
+                    <div key={i} className="glass h-36 w-36 shrink-0 animate-pulse rounded-3xl md:flex-1" />
                   ))}
                 </div>
               ) : (
@@ -85,18 +83,23 @@ export default function HomePage() {
             </section>
 
             <section>
-              <SectionHeader title="Suggested for you" to="/products" linkLabel="View all" />
+              <SectionHeader eyebrow="Picked for you" title="Suggested for you" to="/products" linkLabel="View all" />
               {loading ? (
                 <ProductGridSkeleton count={4} />
               ) : (
-                <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-5 lg:overflow-visible lg:px-0">
+                <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 lg:mx-0 lg:grid lg:grid-cols-4 lg:grid-rows-2 lg:gap-5 lg:overflow-visible lg:px-0">
                   {suggested.map((p, i) => (
-                    <div
+                    <Reveal
                       key={p.id}
-                      className={`w-44 shrink-0 snap-start sm:w-52 lg:w-auto ${i >= 4 ? 'lg:hidden' : ''}`}
+                      index={i}
+                      className={
+                        i === 0
+                          ? 'w-56 shrink-0 snap-start sm:w-64 lg:col-span-2 lg:row-span-2 lg:w-auto'
+                          : 'w-44 shrink-0 snap-start sm:w-52 lg:w-auto'
+                      }
                     >
-                      <ProductCard product={p} />
-                    </div>
+                      <ProductCard product={p} featured={i === 0} />
+                    </Reveal>
                   ))}
                 </div>
               )}

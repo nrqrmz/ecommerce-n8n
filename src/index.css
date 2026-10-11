@@ -4,50 +4,36 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.99 0.003 270);
-  --foreground: oklch(0.18 0.02 270);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 270);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 270);
-  --primary: oklch(0.49 0.22 277);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.96 0.012 275);
-  --secondary-foreground: oklch(0.3 0.08 277);
-  --muted: oklch(0.965 0.006 270);
-  --muted-foreground: oklch(0.5 0.02 270);
-  --accent: oklch(0.95 0.03 277);
-  --accent-foreground: oklch(0.38 0.17 277);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.008 270);
-  --input: oklch(0.9 0.01 270);
-  --ring: oklch(0.58 0.2 277);
-}
-
-.dark {
-  --background: oklch(0.16 0.02 275);
-  --foreground: oklch(0.97 0.005 270);
-  --card: oklch(0.21 0.025 275);
-  --card-foreground: oklch(0.97 0.005 270);
-  --popover: oklch(0.21 0.025 275);
-  --popover-foreground: oklch(0.97 0.005 270);
-  --primary: oklch(0.68 0.17 277);
-  --primary-foreground: oklch(0.16 0.03 277);
-  --secondary: oklch(0.27 0.03 275);
-  --secondary-foreground: oklch(0.92 0.03 277);
-  --muted: oklch(0.25 0.02 275);
-  --muted-foreground: oklch(0.72 0.02 270);
-  --accent: oklch(0.3 0.06 277);
-  --accent-foreground: oklch(0.92 0.04 277);
-  --destructive: oklch(0.704 0.191 22.216);
+  --radius: 1rem;
+  --background: oklch(0.13 0.025 278);
+  --foreground: oklch(0.97 0.008 270);
+  --card: oklch(1 0 0 / 4.5%);
+  --card-foreground: oklch(0.97 0.008 270);
+  --popover: oklch(0.19 0.03 278);
+  --popover-foreground: oklch(0.97 0.008 270);
+  --primary: oklch(0.66 0.2 280);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(1 0 0 / 8%);
+  --secondary-foreground: oklch(0.95 0.01 270);
+  --muted: oklch(1 0 0 / 6%);
+  --muted-foreground: oklch(0.74 0.02 275);
+  --accent: oklch(0.66 0.2 280 / 18%);
+  --accent-foreground: oklch(0.88 0.08 285);
+  --destructive: oklch(0.7 0.19 22);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.62 0.17 277);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.72 0.17 285);
+  --glow-1: oklch(0.6 0.24 280);
+  --glow-2: oklch(0.62 0.25 310);
+  --glow-3: oklch(0.78 0.14 210);
 }
 
 @theme inline {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Sora', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --color-glow-1: var(--glow-1);
+  --color-glow-2: var(--glow-2);
+  --color-glow-3: var(--glow-3);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -77,12 +63,69 @@
     @apply border-border outline-ring/50;
   }
   html {
-    color-scheme: light;
-  }
-  html.dark {
     color-scheme: dark;
   }
   body {
     @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Frosted glass surface. */
+@utility glass {
+  background-color: oklch(1 0 0 / 4.5%);
+  border: 1px solid oklch(1 0 0 / 10%);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Indigo -> violet -> cyan gradient text. */
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--glow-3), var(--glow-1) 40%, var(--glow-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft glow under the pointer (vars set by SpotlightCard). */
+@utility spotlight {
+  background-image: radial-gradient(
+    260px circle at var(--x, 50%) var(--y, -40%),
+    oklch(0.66 0.2 280 / 22%),
+    transparent 70%
+  );
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@utility animate-shimmer {
+  background-image: linear-gradient(90deg, transparent, oklch(1 0 0 / 25%), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-shimmer {
+    animation: none;
   }
 }
