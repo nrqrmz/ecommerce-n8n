@@ -5,6 +5,7 @@ A prototype template: Vite + React + TypeScript + Tailwind CSS + shadcn/ui +
 React Router (`BrowserRouter`). It is an e-commerce prototype; Supabase is NOT used. The user is not technical:
 explain things in simple language and handle the code and Git yourself.
 All code, comments, commit messages and UI text must be in English.
+Keep `README.md` (portfolio page: stack, data flow, env vars, routes) up to date when any of those change.
 
 ## Data (N8N)
 - Products come from an N8N webhook JSON, URL in `.env` as `VITE_N8N_PRODUCTS_URL` (public, committed on purpose).
