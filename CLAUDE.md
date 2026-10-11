@@ -6,6 +6,9 @@ React Router (`BrowserRouter`). It is an e-commerce prototype; Supabase is NOT u
 explain things in simple language and handle the code and Git yourself.
 All code, comments, commit messages and UI text must be in English.
 Keep `README.md` (portfolio page: stack, data flow, env vars, routes) up to date when any of those change.
+`README.md` is the default (English); `README.es.md` is its Spanish translation and must mirror it. Each README starts
+with a language switcher line; when adding a language, add it to every README's switcher. README files are the only
+place where non-English text is allowed.
 
 ## Data (N8N)
 - Products come from an N8N webhook JSON, URL in `.env` as `VITE_N8N_PRODUCTS_URL` (public, committed on purpose).
